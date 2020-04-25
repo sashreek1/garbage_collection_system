@@ -28,11 +28,13 @@ class dustbin():
         StartTime = time.time() #start timer once the pulse is sent completely and echo becomes high 
         while GPIO.input(GPIO_ECHO) == 1:
             pass
-        StopTime = time.time() #stop the timer once the signal is completely received 
+        StopTime = time.time() #stop the timer once the signal is completely received  and echo again becomes 0
 
-        TimeElapsed = StopTime - StartTime # This records the time duration for which echo pin was high
-        distance = (TimeElapsed * 34364) / 2
-        return round(distance,2)
+        TimeElapsed = StopTime - StartTime # This records the time duration for which echo pin was high 
+        speed=34300 #speed of sound in air 343 m/s  or 34300cm/s
+	twicedistance = (TimeElapsed * speed) #as time elapsed accounts for amount of time it takes for the pulse to go and come back  
+	distance=twicedistance/2  # to get actual distance simply divide it by 2
+        return round(distance,2) # round off upto 2 decimal points
 
     def update_Initial(self):
         self.initial_Depth=self.current_Depth() #set the current_Depth as the Depth of dustbin
