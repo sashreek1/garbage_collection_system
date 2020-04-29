@@ -1,9 +1,10 @@
 import urllib.request, json
 import webbrowser
-url=''
 
 #Google MapsDdirections API endpoint
 endpoint = 'https://maps.googleapis.com/maps/api/directions/json?'
+
+# please set your api_key below
 api_key = "Your_api_key"
 
 # set the required location inputs either 'name of the place' or 'lat,long'
@@ -28,9 +29,11 @@ waypoint_order=routes[0]["waypoint_order"]
 
 # url part  without optimisation
 part1='https://www.google.co.in/maps/dir/'
-part2=part1+'{}/{}/{}/{}/{}/{}/'.format(origin,waypoints[0],waypoints[1],waypoints[2],waypoints[3],destination)
-webbrowser.open(part2)
+part2='{}/{}/{}/{}/{}/{}/'.format(origin,waypoints[0],waypoints[1],waypoints[2],waypoints[3],destination)
+url=part1+part2
+webbrowser.open(url)
 
 # url part  with optimisation (using index values stored in waypoint_order)
-part2=part1+'{}/{}/{}/{}/{}/{}/'.format(origin,waypoints[waypoint_order[0]],waypoints[waypoint_order[1]],waypoints[waypoint_order[2]],waypoints[waypoint_order[3]],destination)
-webbrowser.open(part2)
+part2='{}/{}/{}/{}/{}/{}/'.format(origin,waypoints[waypoint_order[0]],waypoints[waypoint_order[1]],waypoints[waypoint_order[2]],waypoints[waypoint_order[3]],destination)
+url=part1+part2
+webbrowser.open(url)
