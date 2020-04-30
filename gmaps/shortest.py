@@ -8,7 +8,7 @@ def opt_route(origin, waypoints, destination):
     endpoint = 'https://maps.googleapis.com/maps/api/directions/json?'
 
     # please set your api_key below
-    api_key = "AIzaSyBGwUAjqdZgjNknqgvdmPCa0U8MVvxvIKs"
+    api_key = "api_key"
 
     #adding mode of routing
     mode='driving'
