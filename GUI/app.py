@@ -12,24 +12,54 @@ class app():
         self.app_width = int(0.5*self.width)
         self.app_length = int(0.5*self.height)
         self.obj.geometry(str(self.app_width)+"x"+str(self.app_length))
+        self.text=''
         self.b=dustbin()
         
         
-    def co_ordinate(self): 
+    def co_ordinate(self):
+        
+        def printd():
+            text = textin.get()
+            print(str(text))
+            return
+        
         cordinate = Tk()
+        
         cordinate.geometry(str(int(0.5*self.height))+"x"+str(int(0.3*self.width)))
         cordinate.title("enter the co_ordinte values")
+        
         label1 = Label(cordinate, text= "Enter the co ordinates seperated by comma" )
         label1.pack()
-        e=Entry(cordinate)
-
-        button = Button(cordinate,text='okay')
+        
+        textin = StringVar()
+        e=Entry(cordinate, width=30)
+        button = Button(cordinate,text='okay',command=printd)
         button.pack(side='bottom')
-        string = e.get()
-        e.pack()
-        e.focus_set()                
-        print(string)     
+        
+        e.pack()            
         cordinate.mainloop()
+        
+    def getarea(self):
+        def printd():
+            text = textin.get()
+            print(str(text))
+            return
+        
+        area= Tk()
+        area.geometry(str(int(0.5*self.height))+"x"+str(int(0.3*self.width)))
+        
+        label1 = Label(area, text= "Enter the Area" )
+        label1.pack()
+        
+        textin = StringVar()
+        e=Entry(area, width=30)
+        button = Button(area,text='okay',command=printd)
+        button.pack(side='bottom')
+        
+        e.pack()            
+        area.mainloop()
+        
+        
 
         
     def get_info(self):
@@ -66,6 +96,9 @@ class app():
         
         co_button = Button(object1,text="Enter Co-Ordinates",background="white",command=self.co_ordinate )  
         co_button.place(relx=0.5, rely=0.7, anchor=CENTER)
+        
+        area_button = Button(object1,text="Enter Area",background="white",command=self.getarea )  
+        area_button.place(relx=0.5, rely=0.8, anchor=CENTER)
  
 if __name__ == "__main__": 
     object1 = Tk()
