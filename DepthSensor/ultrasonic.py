@@ -15,7 +15,7 @@ time.sleep(2)
 class dustbin():
     
     def __init__ (self):
-        self.initial_Depth =100 #default depth is equal to 100 cm
+        self.initial_Depth =-1 #-1 represents not yet initialized call self.update_Initial to initialize
         
     def current_Depth(self):
         #trigger the ultrasonic sensor for a very short period (10us).
