@@ -82,11 +82,11 @@ class app():
         sensor_data.geometry(str(int(0.5*self.height))+"x"+str(int(0.3*self.width)))
         sensor_data.title("Info Page") 
        
-        initial_percentage=b.percentage_Filled()
-        initial=b.initial_Depth
-        b.update_Initial()
-        current=b.current_Depth() 
-        current_percentage=b.percentage_Filled())
+        initial_percentage=self.b.percentage_Filled()
+        initial=self.b.initial_Depth
+        self.b.update_Initial()
+        current=self.b.current_Depth() 
+        current_percentage=self.b.percentage_Filled()
         self.data['initialDepth']=float(initial)
         self.data['currentDepth']=float(current)
         print(self.data)
