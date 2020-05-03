@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Garbage collection</title>
+<link href="static/css/style.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+  p.ex1 {
+  font-size: 90px;
+  } 
+</style>
+</head>
+<body>
+
+  <div id="wrapper"> 
+
+    <div id="header"> 
+
+      <div class="top_banner">
+        <h1>Garbage Collection Status</h1>
+      </div>
+    </div>
+
+    <h2>Gallery</h2>
+    <hr>
+    <form action="{{ url_for('result') }}">
+      <label for="area_name">Area name:</label><br>
+      <input type="text" id="fname" name="area_name"><br><br>
+      <input type="submit" value="Submit">
+    </form> 
+    <br>
+    <br>
+    <h2>The garbage can in {{area}} has been filled by </h2>
+    <br><br><br>
+    <p class="ex1">{{percent}}</p>
+  </div>
+
+</body>
+</html>
