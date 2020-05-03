@@ -52,13 +52,10 @@ class app():
         
         def printdata(entrybox):
             text = entrybox.get()
-            print(str(text))
             self.data['area']=str(text)
             print(self.data)
             
             
-
-        
         area=Tk()
         area.geometry(str(int(0.5*self.height))+"x"+str(int(0.3*self.width)))
         
@@ -75,32 +72,51 @@ class app():
         
 
         
-    def get_info(self):
-        # this code gets the data from the Raspi
+    def initial_data(self):
         
-        sensor_data = Tk()
-        sensor_data.geometry(str(int(0.5*self.height))+"x"+str(int(0.3*self.width)))
-        sensor_data.title("Info Page") 
+        # this code gets initial data from the Raspi
+        
+        initial_data = Tk()
+        initial_data.geometry(str(int(0.5*self.height))+"x"+str(int(0.3*self.width)))
+        initial_data.title("Info Page") 
        
         initial_percentage=self.b.percentage_Filled()
         initial=self.b.initial_Depth
+        
+        self.data['initialDepth']=float(initial)
+       
+       
+        label1 = Label(initial_data, text= "Initial depth "+str(initial))
+        label2 = Label(initial_data, text= "intially filled % =  "+str(initial_percentage) )
+        
+        label1.pack()
+        label2.pack() 
+        
+        print(self.data)
+        
+        
+        
+    def current_data(self):
+        
+        # this code gets current data from the Raspi
+        
+        current_data = Tk()
+        current_data.geometry(str(int(0.5*self.height))+"x"+str(int(0.3*self.width)))
+        current_data.title("Info Page") 
+       
         self.b.update_Initial()
         current=self.b.current_Depth() 
         current_percentage=self.b.percentage_Filled()
-        self.data['initialDepth']=float(initial)
-        self.data['currentDepth']=float(current)
-        print(self.data)
         
-       
-        label1 = Label(sensor_data, text= "Initial depth "+str(initial))
-        label2 = Label(sensor_data, text= "intially filled % =  "+str(initial_percentage) )
-        label3 = Label(sensor_data, text= "current depth in cm = "+str(current))
-        label4 = Label(sensor_data, text= "percentage filled now= "+str(current_percentage))
+        self.data['currentDepth']=float(current)
+        
+        label1 = Label(current_data, text= "current depth in cm = "+str(current))
+        label2 = Label(current_data, text= "percentage filled now= "+str(current_percentage))
+        
         label1.pack()
         label2.pack()
-        label3.pack() 
-        label4.pack()
         
+        print(self.data)
         
     def start_app(self,object1):
         
@@ -110,17 +126,20 @@ class app():
         welcome = Label(self.obj, text='Garbage collection \n App \n\n\n',font=welcome,background="green")
         welcome.pack(fill='both', expand=True, anchor=CENTER)
         
-        display_button = Button(object1,text="Get Data",background="white",command=self.get_info )
-        display_button.place(relx=0.5, rely=0.5, anchor=CENTER)
+        initial_display_button = Button(object1,text="Initial Data",background="white",command=self.initial_data )
+        initial_display_button.place(relx=0.5, rely=0.5, anchor=CENTER)
+        
+        current_display_button = Button(object1,text="current Data",background="white",command=self.current_data )
+        current_display_button.place(relx=0.5, rely=0.6, anchor=CENTER)
         
         return_button = Button(object1,text="Return Data",background="white",command=self.senddata) 
-        return_button.place(relx=0.5, rely=0.8, anchor=CENTER)
+        return_button.place(relx=0.5, rely=0.9, anchor=CENTER)
         
-        co_button = Button(object1,text="Enter Co-Ordinates",background="white",command=self.co_ordinate )  
-        co_button.place(relx=0.5, rely=0.7, anchor=CENTER)
+        co_ordinate_button = Button(object1,text="Enter Co-Ordinates",background="white",command=self.co_ordinate )  
+        co_ordinate_button.place(relx=0.5, rely=0.8, anchor=CENTER)
         
         area_button = Button(object1,text="Enter Area",background="white",command=self.getarea )  
-        area_button.place(relx=0.5, rely=0.6, anchor=CENTER)
+        area_button.place(relx=0.5, rely=0.7, anchor=CENTER)
  
 if __name__ == "__main__": 
     object1 = Tk()
