@@ -1,6 +1,7 @@
 from tkinter import *
 import tkinter.font as tkFont
 from DepthSensor.ultrasonic import dustbin
+from cloud_integration import transfer_data as transfer_data
 
 class app():
     
@@ -17,7 +18,7 @@ class app():
         
     def senddata(self):
         print(self.data)
-        return self.data
+        transfer_data.send_data(self.data)
     
     
     def co_ordinate(self):
@@ -28,8 +29,8 @@ class app():
             l=[]
             for cordinate in text.split(','):
                 l.append(float(cordinate))
-            self.data['xco0r']=float(l[0])
-            self.data['yco0r']=float(l[1])
+            self.data['xcoor']=float(l[0])
+            self.data['ycoor']=float(l[1])
             print(self.data)
         
         cordinate = Tk()
@@ -69,55 +70,42 @@ class app():
         e.pack()            
         area.mainloop()
         
-        
+    def get_depth(self,setup):
+        if setup:
+            current_data = Tk()
+            current_data.geometry(str(int(0.5*self.height))+"x"+str(int(0.3*self.width)))
+            current_data.title("Info Page") 
+           
+            current = self.b.update_Initial()
+            
+            self.data['initialDepth']=float(current)
+            
+            label1 = Label(current_data, text= "current depth in cm = "+str(current))
+            label2 = Label(current_data, text= "percentage filled now= "+str(0))
+            
+            label1.pack()
+            label2.pack()
+            
+            print(self.data)
 
-        
-    def initial_data(self):
-        
-        # this code gets initial data from the Raspi
-        
-        initial_data = Tk()
-        initial_data.geometry(str(int(0.5*self.height))+"x"+str(int(0.3*self.width)))
-        initial_data.title("Info Page") 
-       
-        initial_percentage=self.b.percentage_Filled()
-        initial=self.b.initial_Depth
-        
-        self.data['initialDepth']=float(initial)
-       
-       
-        label1 = Label(initial_data, text= "Initial depth "+str(initial))
-        label2 = Label(initial_data, text= "intially filled % =  "+str(initial_percentage) )
-        
-        label1.pack()
-        label2.pack() 
-        
-        print(self.data)
-        
-        
-        
-    def current_data(self):
-        
-        # this code gets current data from the Raspi
-        
-        current_data = Tk()
-        current_data.geometry(str(int(0.5*self.height))+"x"+str(int(0.3*self.width)))
-        current_data.title("Info Page") 
-       
-        self.b.update_Initial()
-        current=self.b.current_Depth() 
-        current_percentage=self.b.percentage_Filled()
-        
-        self.data['currentDepth']=float(current)
-        
-        label1 = Label(current_data, text= "current depth in cm = "+str(current))
-        label2 = Label(current_data, text= "percentage filled now= "+str(current_percentage))
-        
-        label1.pack()
-        label2.pack()
-        
-        print(self.data)
-        
+        else:
+            current_data = Tk()
+            current_data.geometry(str(int(0.5*self.height))+"x"+str(int(0.3*self.width)))
+            current_data.title("Info Page") 
+           
+            current=self.b.current_Depth() 
+            current_percentage=self.b.percentage_Filled(self.b.initial_Depth,current)
+            
+            self.data['currentDepth']=float(current)
+            
+            label1 = Label(current_data, text= "current depth in cm = "+str(current))
+            label2 = Label(current_data, text= "percentage filled now= "+str(current_percentage))
+            
+            label1.pack()
+            label2.pack()
+            
+            print(self.data)
+
     def start_app(self,object1):
         
         #To start the APP
@@ -126,10 +114,10 @@ class app():
         welcome = Label(self.obj, text='Garbage collection \n App \n\n\n',font=welcome,background="green")
         welcome.pack(fill='both', expand=True, anchor=CENTER)
         
-        initial_display_button = Button(object1,text="Initial Data",background="white",command=self.initial_data )
+        initial_display_button = Button(object1,text="Initial Data",background="white",command=lambda: self.get_depth(True) )
         initial_display_button.place(relx=0.5, rely=0.5, anchor=CENTER)
         
-        current_display_button = Button(object1,text="current Data",background="white",command=self.current_data )
+        current_display_button = Button(object1,text="current Data",background="white",command=lambda: self.get_depth(False) )
         current_display_button.place(relx=0.5, rely=0.6, anchor=CENTER)
         
         return_button = Button(object1,text="Return Data",background="white",command=self.senddata) 

@@ -15,7 +15,7 @@ time.sleep(2)
 class dustbin():
     
     def __init__ (self):
-        self.initial_Depth =100 #default depth is equal to 100 cm
+        self.initial_Depth =-1 #-1 represents not yet initialized call self.update_Initial to initialize
         
     def current_Depth(self):
         #trigger the ultrasonic sensor for a very short period (10us).
@@ -38,10 +38,12 @@ class dustbin():
 
     def update_Initial(self):
         self.initial_Depth=self.current_Depth() #set the current_Depth as the Depth of dustbin
-        
-    def percentage_Filled(self):
-        diff=self.initial_Depth -self.current_Depth()
+        return self.initial_Depth
+    def percentage_Filled(self, initial,curr):
+        diff=initial -curr
+        print(diff)
         percentage=diff/self.initial_Depth
+        print(percentage)
         percentage*=100
         if(percentage<0):
             percentage=0
