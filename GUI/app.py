@@ -2,6 +2,7 @@ from tkinter import *
 import tkinter.font as tkFont
 from DepthSensor.ultrasonic import dustbin
 from cloud_integration import transfer_data as transfer_data
+from google.cloud import firestore
 
 class app():
     
@@ -29,8 +30,8 @@ class app():
             l=[]
             for cordinate in text.split(','):
                 l.append(float(cordinate))
-            self.data['xcoor']=float(l[0])
-            self.data['ycoor']=float(l[1])
+                
+            self.data['location']= firestore.GeoPoint(float(l[0]), float(l[1]))
             print(self.data)
         
         cordinate = Tk()
