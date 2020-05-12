@@ -1,7 +1,8 @@
+#Tkinter is used to develop the GUI
 from tkinter import *
 import tkinter.font as tkFont
-from DepthSensor.ultrasonic import dustbin
-from cloud_integration import transfer_data as transfer_data
+from DepthSensor.ultrasonic import dustbin #From ultrasonic.py file we import the dustbin class
+from cloud_integration import transfer_data as transfer_data  
 from google.cloud import firestore
 
 class app():
@@ -13,28 +14,29 @@ class app():
         self.width = self.obj.winfo_screenwidth()
         self.app_width = int(0.5*self.width)
         self.app_length = int(0.5*self.height)
-        self.obj.geometry(str(self.app_width)+"x"+str(self.app_length))
-        self.data = { }
-        self.b=dustbin() #to invoke the dustbin object
+        self.obj.geometry(str(self.app_width)+"x"+str(self.app_length))#Geometry is defined
+        self.data = { }# This dictinary stores the data with key values which are to be sent to the cloud
+        self.b=dustbin() #to invoke the dustbin object from the dustbin class of ultrasonic.py file
         
+      # senddata function sends data to the database with key values  
     def senddata(self):
-        print(self.data)
+        print(self.data)#prints the data with key values 
         transfer_data.send_data(self.data)
     
-    
+    #co_ordinate function takes the comma seperated values from user which is lattitude and longitude of the place where dustbin is located  
     def co_ordinate(self):
         
-        def printdata(entrybox):
+        def printdata(entrybox):#Entrybox which takes the input cordinate from the user
             text = entrybox.get()
             print(str(text))
-            l=[]
+            l=[] # list to store x and y cordinated at the index 0 and one respectively
             for cordinate in text.split(','):
                 l.append(float(cordinate))
                 
             self.data['location']= firestore.GeoPoint(float(l[0]), float(l[1]))
             print(self.data)
         
-        cordinate = Tk()
+        cordinate = Tk() # this object is used to create the new window
         
         cordinate.geometry(str(int(0.5*self.height))+"x"+str(int(0.3*self.width)))
         cordinate.title("enter the co_ordinte values")
@@ -42,7 +44,7 @@ class app():
         label1 = Label(cordinate, text= "Enter the co ordinates seperated by comma" )
         label1.pack()
         
-        textin = StringVar()
+        textin = StringVar() #String variable
         e=Entry(cordinate, width=30)
         button = Button(cordinate,text='okay',command=lambda:printdata(e))
         button.pack(side='bottom')
@@ -50,15 +52,16 @@ class app():
         e.pack()            
         cordinate.mainloop()
         
+    # getarea function takes the area where dustbin is located   
     def getarea(self):
         
-        def printdata(entrybox):
+        def printdata(entrybox):#Entrybox which takes the input area from the user
             text = entrybox.get()
             self.data['area']=str(text)
             print(self.data)
             
             
-        area=Tk()
+        area=Tk() # this object is used to create the new window
         area.geometry(str(int(0.5*self.height))+"x"+str(int(0.3*self.width)))
         
         label1 = Label(area, text= "Enter the Area" )
@@ -70,8 +73,10 @@ class app():
         
         e.pack()            
         area.mainloop()
-        
+     # get_depth functon takes the initial depth of the dustbin
     def get_depth(self,setup):
+        
+        # if setup is True then initial depth is obtained else current depth is obtained.
         if setup:
             current_data = Tk()
             current_data.geometry(str(int(0.5*self.height))+"x"+str(int(0.3*self.width)))
